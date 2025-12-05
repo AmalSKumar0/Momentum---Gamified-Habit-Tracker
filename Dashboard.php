@@ -134,15 +134,15 @@ $items = $stmt->fetch_all(MYSQLI_ASSOC);
             <!-- Quest Board -->
             <div class="section-header">
                 <h2><i class="fas fa-fire"></i> Daily Quests</h2>
-                <button class="ai-brief-btn" onclick="generateDailyBriefing()">
-                    <i class="fas fa-sparkles"></i> Briefing
+                <button class="ai-brief-btn" onclick="window.location.href='Habit.php'">
+                    <i class="fas fa-sparkles"></i> Add Habits
                 </button>
             </div>
 
             <div class="course-list">
                 <!-- Quest 1 (Epic) -->
                  <?php foreach ($items as $item): ?>
-                <div class="quest-card epic">
+                <div class="quest-card <?php if(htmlspecialchars($item['difficulty']) == 'easy'){ echo 'common'; } ?> <?php if(htmlspecialchars($item['difficulty']) == 'medium'){ echo 'rare'; }  ?>  <?php if(htmlspecialchars($item['difficulty']) == 'hard'){ echo 'epic'; } ?>">
                     <div class="quest-header">
                         <div class="icon-box">
                             <i class="fas fa-brain"></i>
@@ -169,91 +169,12 @@ $items = $stmt->fetch_all(MYSQLI_ASSOC);
                 </div>
                 <?php endforeach; ?>
                 <?php if (count($items) === 0): ?>
-            <p>The shop is currently empty. Check back later!</p>
-            <a href="Habit.php">Add Habits</a>
+            <h2></i>The shop is currently empty. Check back later!</h2>
+                <button class="ai-brief-btn" onclick="window.location.href='Habit.php'">
+                    <i class="fas fa-sparkles"></i> Add Habits
+                </button>
         <?php endif; ?>
                 <!-- Quest 2 (Rare) -->
-                <div class="quest-card rare">
-                    <div class="quest-header">
-                        <div class="icon-box">
-                            <i class="fas fa-pen-nib"></i>
-                        </div>
-                        <div class="quest-info">
-                            <h3>UI Fundamentals</h3>
-                            <div class="quest-meta">
-                                <span><i class="far fa-clock"></i> 11:00 - 12:00</span>
-                                <span><i class="fas fa-shield-alt"></i> Medium</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="quest-rewards">
-                        <div class="loot-tag"><i class="fas fa-star"></i> +150 XP</div>
-                        <div class="loot-tag"><i class="fas fa-gem"></i> 25 Gems</div>
-                    </div>
-
-                    <div class="action-row">
-                        <button class="btn-complete" onclick="completeQuest(this)">Complete</button>
-                        <button class="btn-ai-help" onclick="generateStudyGuide('UI Design Fundamentals')">
-                            <i class="fas fa-magic"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Quest 3 (Common) -->
-                <div class="quest-card common">
-                    <div class="quest-header">
-                        <div class="icon-box">
-                            <i class="fas fa-feather-alt"></i>
-                        </div>
-                        <div class="quest-info">
-                            <h3>Microcopy Writing</h3>
-                            <div class="quest-meta">
-                                <span><i class="far fa-clock"></i> 14:00 - 16:00</span>
-                                <span><i class="fas fa-shield-alt"></i> Easy</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="quest-rewards">
-                        <div class="loot-tag"><i class="fas fa-star"></i> +100 XP</div>
-                        <div class="loot-tag"><i class="fas fa-gem"></i> 10 Gems</div>
-                    </div>
-
-                    <div class="action-row">
-                        <button class="btn-complete" onclick="completeQuest(this)">Complete</button>
-                        <button class="btn-ai-help" onclick="generateStudyGuide('Microcopy & UX Writing')">
-                            <i class="fas fa-magic"></i>
-                        </button>
-                    </div>
-                </div>
-                 <!-- Quest 4 (Common) -->
-                 <div class="quest-card common">
-                    <div class="quest-header">
-                        <div class="icon-box">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <div class="quest-info">
-                            <h3>Frontend Basics</h3>
-                            <div class="quest-meta">
-                                <span><i class="far fa-clock"></i> 16:30 - 17:30</span>
-                                <span><i class="fas fa-shield-alt"></i> Easy</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="quest-rewards">
-                        <div class="loot-tag"><i class="fas fa-star"></i> +100 XP</div>
-                        <div class="loot-tag"><i class="fas fa-gem"></i> 10 Gems</div>
-                    </div>
-
-                    <div class="action-row">
-                        <button class="btn-complete" onclick="completeQuest(this)">Complete</button>
-                        <button class="btn-ai-help" onclick="generateStudyGuide('Front-End Development')">
-                            <i class="fas fa-magic"></i>
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
@@ -428,13 +349,6 @@ $items = $stmt->fetch_all(MYSQLI_ASSOC);
 <div class="shop-grid">
         
         
-            
-            <ol>
-                <li><?php echo htmlspecialchars($item['title']); ?></li>
-                <li><?php echo htmlspecialchars($item['difficulty']); ?></li>
-                <li><a href="actions.php?didnt=<?php echo htmlspecialchars($item['id']); ?>">didnt do</a></li>
-                <li><a href="actions.php?did=<?php echo htmlspecialchars($item['id']); ?>">did it</a></li>
-            </ol>
 
         
 
