@@ -1,25 +1,3 @@
-<?php
-include 'config/DBconfig.php';
-session_start();
-if(!isset($_SESSION['user_id'])){
-    header("Location: Auth/login.php");
-}
-$user_id = $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT gold,xp,name FROM users WHERE uid = ?");
-    $stmt->bind_param("s", $user_id);
-    $stmt->execute();
-    $stmt->store_result();
-    $stmt->bind_result($gold,$xp,$name);
-    $stmt->fetch();
-?>
-
-<?php
-$sql = "SELECT * FROM habits WHERE user_id = $user_id";
-$stmt = $conn->query($sql);
-$items = $stmt->fetch_all(MYSQLI_ASSOC);
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,17 +60,9 @@ $items = $stmt->fetch_all(MYSQLI_ASSOC);
 
             <div class="player-status">
                 <!-- Life Bar (New) -->
-                 <?php 
-                 echo"
-                    <script> .life-fill {
-            width: ".$xp."%;
-           
-        } </script>
-                 ";
-                 ?>
                 <div class="stat-box">
                     <i class="fas fa-heart life-icon"></i>
-                    <span><?php echo $xp; ?>/100</span>
+                    <span>100/100</span>
                     <div class="life-bar-mini">
                         <div class="life-fill"></div>
                     </div>
@@ -100,13 +70,13 @@ $items = $stmt->fetch_all(MYSQLI_ASSOC);
 
                 <!-- Gem/Currency Counter -->
                 <div class="stat-box">
-                    <i class="fas fa-gem gold-icon"></i> <?php echo $gold; ?>
+                    <i class="fas fa-gem gem-icon"></i> 4,250
                 </div>
                 
                 <!-- XP & Avatar -->
                 <div class="profile-card">
                     <div class="stats-col">
-                        <span class="level-label"><?php echo $name; ?></span>
+                        <span class="level-label">Lvl 12 Scholar</span>
 
                     </div>
                     <div class="avatar-container">
@@ -141,16 +111,16 @@ $items = $stmt->fetch_all(MYSQLI_ASSOC);
 
             <div class="course-list">
                 <!-- Quest 1 (Epic) -->
-                 <?php foreach ($items as $item): ?>
                 <div class="quest-card epic">
                     <div class="quest-header">
                         <div class="icon-box">
                             <i class="fas fa-brain"></i>
                         </div>
                         <div class="quest-info">
-                            <h3><?php echo htmlspecialchars($item['title']); ?></h3>
+                            <h3>UX Design Systems</h3>
                             <div class="quest-meta">
-                                <span><i class="fas fa-shield-alt"></i> <?php echo htmlspecialchars($item['difficulty']); ?></span>
+                                <span><i class="far fa-clock"></i> 08:00 - 10:00</span>
+                                <span><i class="fas fa-shield-alt"></i> Hard</span>
                             </div>
                         </div>
                     </div>
@@ -167,11 +137,7 @@ $items = $stmt->fetch_all(MYSQLI_ASSOC);
                         </button>
                     </div>
                 </div>
-                <?php endforeach; ?>
-                <?php if (count($items) === 0): ?>
-            <p>The shop is currently empty. Check back later!</p>
-            <a href="Habit.php">Add Habits</a>
-        <?php endif; ?>
+
                 <!-- Quest 2 (Rare) -->
                 <div class="quest-card rare">
                     <div class="quest-header">
@@ -424,18 +390,3 @@ $items = $stmt->fetch_all(MYSQLI_ASSOC);
     </script>
 </body>
 </html>
-
-<div class="shop-grid">
-        
-        
-            
-            <ol>
-                <li><?php echo htmlspecialchars($item['title']); ?></li>
-                <li><?php echo htmlspecialchars($item['difficulty']); ?></li>
-                <li><a href="actions.php?didnt=<?php echo htmlspecialchars($item['id']); ?>">didnt do</a></li>
-                <li><a href="actions.php?did=<?php echo htmlspecialchars($item['id']); ?>">did it</a></li>
-            </ol>
-
-        
-
-        
